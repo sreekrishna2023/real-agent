@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RealEstate AI Agent</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <nav class="nav">
+        <div class="brand">RealEstate AI Agent</div>
+        <div class="nav-links">
+          <a class="btn secondary" href="#" data-app-link="/login">Login</a>
+          <a class="btn" href="#" data-app-link="/register">Get Started</a>
+        </div>
+      </nav>
+
+      <div
+        id="configBanner"
+        class="card"
+        style="display: none; margin-top: 16px; border-color: #c9a227; background: rgba(40, 32, 10, 0.6);"
+      >
+        <strong>Set your backend URL</strong>
+        <p style="color: var(--muted); margin: 8px 0 0;">
+          Edit <code style="color: var(--text);">docs/config.js</code> and set
+          <code style="color: var(--text);">window.REAL_AGENT_API</code> to your deployed API (for example
+          Render). Then commit and push. This page only hosts the marketing site; login and chat run on
+          your backend host.
+        </p>
+      </div>
+
+      <section class="hero">
+        <div>
+          <h1>AI copilot for real estate professionals</h1>
+          <p>
+            Ask about pricing strategy, comps, market trends, listing copy, negotiation scripts, and client
+            communication. Connect live data sources and run your brokerage assistant from one dashboard.
+          </p>
+          <div style="display: flex; gap: 10px; margin-top: 18px;">
+            <a class="btn" href="#" data-app-link="/register">Create Account</a>
+            <a class="btn secondary" href="#" data-app-link="/login">Sign In</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top: 0;">Example questions</h3>
+          <p class="muted">"Give me a listing description for a 3-bed townhouse in Austin."</p>
+          <p class="muted">"What negotiation strategy should I use for multiple offers?"</p>
+          <p class="muted">"Summarize market signals in Miami this week."</p>
+          <p style="color: #b8c1e6; margin-top: 16px;">Supports OpenAI, Gemini, and Claude.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid-3">
+          <div class="card">
+            <h3>Agent Intelligence</h3>
+            <p>Built for lead follow-up, listing strategy, open house scripts, and objections.</p>
+          </div>
+          <div class="card">
+            <h3>Live Data Connectors</h3>
+            <p>Use optional APIs for listing and market context from Zillow-like sources.</p>
+          </div>
+          <div class="card">
+            <h3>Production Ready</h3>
+            <p>Deploy the app API to Render, Railway, or Fly; use this repo for your public landing page.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="./config.js"></script>
+    <script>
+      (function () {
+        function stripTrailingSlash(u) {
+          return u.replace(/\/$/, "");
+        }
+        var raw = typeof window.REAL_AGENT_API === "string" ? window.REAL_AGENT_API.trim() : "";
+        var api = raw ? stripTrailingSlash(raw) : "";
+        var banner = document.getElementById("configBanner");
+        if (banner) banner.style.display = api ? "none" : "block";
+        document.querySelectorAll("[data-app-link]").forEach(function (el) {
+          var path = el.getAttribute("data-app-link") || "/";
+          if (!api) {
+            el.addEventListener("click", function (e) {
+              e.preventDefault();
+              window.alert(
+                "Set REAL_AGENT_API in docs/config.js to your deployed backend URL (e.g. https://your-app.onrender.com), then push to GitHub."
+              );
+            });
+            return;
+          }
+          el.href = api + path;
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -60,6 +60,40 @@ You can extend `server.js` with your licensed MLS/IDX feed providers.
    git push -u origin main
    ```
 
+### Public landing page (GitHub Pages)
+
+This repo includes a static marketing site under `docs/` (same look as the app landing).
+
+1. On GitHub: open the repo → **Settings** → **Pages**.
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
+3. Choose **Branch**: `main`, folder **`/docs`**, then **Save**.
+4. After a minute, GitHub shows your site URL, usually:
+   - `https://<your-username>.github.io/<repo-name>/`
+5. Edit **`docs/config.js`** and set `window.REAL_AGENT_API` to your **deployed backend URL** (no trailing slash), for example `https://your-service.onrender.com`. Commit and push so **Login** and **Get Started** send visitors to the live app.
+
+GitHub Pages only serves static files. **Login, register, dashboard, and `/api/*` run on your Node host**, not on `github.io`.
+
+### Backend + full app (Render — recommended)
+
+Use Render (or Railway/Fly) to run `server.js` so everyone can use login and chat.
+
+1. Create a **Web Service** on [Render](https://render.com) and connect this GitHub repo.
+2. **Build command:** `npm install`
+3. **Start command:** `npm start`
+4. **Environment** (minimum):
+   - `NODE_ENV` = `production`
+   - `JWT_SECRET` = long random string
+   - `LLM_PROVIDER` = `openai` | `gemini` | `anthropic`
+   - One of: `OPENAI_API_KEY`, `GEMINI_API_KEY`, or `ANTHROPIC_API_KEY`
+   - Optional listing/search: `RENTCAST_API_KEY`, `SERPAPI_API_KEY`
+5. **CORS (optional):** If your marketing site is on GitHub Pages, set:
+   - `CLIENT_ORIGIN` = `https://<username>.github.io`  
+   You only need this if the browser on `github.io` will call your API directly (for example, future embedded forms). If users only open **Login** on the Render URL, you can leave it unset.
+
+6. After deploy, copy the service URL (for example `https://real-agent-xxxx.onrender.com`) into **`docs/config.js`** as `REAL_AGENT_API`, commit, and push so the Pages landing links to production.
+
+**Persistence:** The sample app stores users in `data/users.json`. On free tiers the filesystem is often **ephemeral** — users may reset when the service restarts. For production, move users to a managed database on your host.
+
 ### Hosting options
 - Render
 - Railway

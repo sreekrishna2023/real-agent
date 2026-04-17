@@ -12,6 +12,55 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
 const USERS_FILE = path.join(__dirname, "data", "users.json");
+const isProd = process.env.NODE_ENV === "production";
+
+app.set("trust proxy", 1);
+
+function getAllowedOrigins() {
+  const raw = process.env.CLIENT_ORIGINS || process.env.CLIENT_ORIGIN || "";
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+app.use((req, res, next) => {
+  const allowed = getAllowedOrigins();
+  if (!allowed.length) {
+    return next();
+  }
+  const origin = req.headers.origin;
+  if (origin && allowed.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Vary", "Origin");
+  }
+  if (req.method === "OPTIONS") {
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    return res.sendStatus(204);
+  }
+  return next();
+});
+
+function authCookieOptions() {
+  return {
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    sameSite: isProd ? "none" : "lax",
+    secure: isProd,
+    path: "/"
+  };
+}
+
+function clearAuthCookie(res) {
+  res.clearCookie("token", {
+    path: "/",
+    httpOnly: true,
+    sameSite: isProd ? "none" : "lax",
+    secure: isProd
+  });
+}
 
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
@@ -101,12 +150,7 @@ app.post("/api/auth/register", async (req, res) => {
   writeUsers(users);
 
   const token = createToken(newUser);
-  res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: false,
-    maxAge: 7 * 24 * 60 * 60 * 1000
-  });
+  res.cookie("token", token, authCookieOptions());
 
   return res.json({ user: sanitizeUser(newUser) });
 });
@@ -129,18 +173,13 @@ app.post("/api/auth/login", async (req, res) => {
   }
 
   const token = createToken(user);
-  res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: false,
-    maxAge: 7 * 24 * 60 * 60 * 1000
-  });
+  res.cookie("token", token, authCookieOptions());
 
   return res.json({ user: sanitizeUser(user) });
 });
 
 app.post("/api/auth/logout", (req, res) => {
-  res.clearCookie("token");
+  clearAuthCookie(res);
   return res.json({ ok: true });
 });
 
