@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | RealEstate AI Agent</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-wrap card">
+        <h2>Agent Login</h2>
+        <p style="color:#b8c1e6;">Access your AI dashboard</p>
+        <form id="loginForm">
+          <label for="email">Email</label>
+          <input id="email" type="email" required />
+          <label for="password">Password</label>
+          <input id="password" type="password" required />
+          <button class="btn" type="submit" style="width:100%;">Login</button>
+        </form>
+        <div class="error" id="errorMsg"></div>
+        <p>New user? <a href="/register">Create an account</a></p>
+      </div>
+    </div>
+    <script src="/login.js"></script>
+  </body>
+</html>

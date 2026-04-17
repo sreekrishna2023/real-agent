@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | RealEstate AI Agent</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="chat-layout">
+        <aside class="sidebar">
+          <h3>RealEstate AI</h3>
+          <p style="color:#b8c1e6; font-size:0.95rem;">Agent workspace</p>
+          <hr style="border-color:#2e3f70;" />
+          <div id="profileBox" style="font-size:0.95rem; color:#d6ddff;"></div>
+          <button id="logoutBtn" class="btn secondary" style="margin-top:14px; width:100%;">Logout</button>
+        </aside>
+        <section class="chat-panel">
+          <div class="messages" id="messages">
+            <div class="bubble bot">
+              Welcome. Ask me anything about real estate strategy, pricing, offers, market trends, or client messaging.
+            </div>
+          </div>
+          <form class="chat-input" id="chatForm">
+            <input id="chatInput" type="text" placeholder="Ask your real estate question..." required />
+            <button class="btn" type="submit">Send</button>
+          </form>
+        </section>
+      </div>
+    </div>
+    <script src="/dashboard.js"></script>
+  </body>
+</html>

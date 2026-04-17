@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | RealEstate AI Agent</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-wrap card">
+        <h2>Create Agent Account</h2>
+        <p style="color:#b8c1e6;">Tell us about your market</p>
+        <form id="registerForm">
+          <label for="name">Full Name</label>
+          <input id="name" type="text" required />
+          <label for="email">Email</label>
+          <input id="email" type="email" required />
+          <label for="password">Password</label>
+          <input id="password" type="password" minlength="8" required />
+          <label for="brokerage">Brokerage (optional)</label>
+          <input id="brokerage" type="text" />
+          <label for="market">Primary Market (City/Region)</label>
+          <input id="market" type="text" placeholder="e.g., Austin, TX" />
+          <button class="btn" type="submit" style="width:100%;">Create Account</button>
+        </form>
+        <div class="error" id="errorMsg"></div>
+        <p>Already have an account? <a href="/login">Login</a></p>
+      </div>
+    </div>
+    <script src="/register.js"></script>
+  </body>
+</html>
