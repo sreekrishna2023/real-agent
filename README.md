@@ -7,6 +7,16 @@ Complete starter project for a real estate AI chatbot website with:
 - LLM provider switch (OpenAI, Gemini, Claude)
 - Optional real estate listing/search connectors
 
+## Your public website (what visitors open)
+
+**Localhost is only for development on your computer.** For a real site that anyone can open in a browser, deploy this app to a host such as [Render](https://render.com). You will get a permanent public URL like `https://real-agent.onrender.com` — that address **is** the website: home page, login, register, and chat all run there (served by `server.js` from the `public/` folder).
+
+You do **not** need GitHub Pages for that. Pages is optional if you want a separate free marketing URL on `github.io`; the simplest setup is **one Render URL for everything**.
+
+Quick path: connect this repo in Render → use **Build** `npm install` and **Start** `npm start` → set `NODE_ENV=production`, `JWT_SECRET`, and your LLM API key → open the URL Render shows.
+
+This repo includes a [`render.yaml`](render.yaml) blueprint you can use with **Render → New → Blueprint** to create the web service from the spec.
+
 ## 1) Run locally
 
 ```bash
